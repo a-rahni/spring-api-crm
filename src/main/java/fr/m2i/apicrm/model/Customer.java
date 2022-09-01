@@ -40,6 +40,9 @@ public class Customer {
     @Column(name="zipCode")
     private String zipCode;
     
+    @Column(name="city")
+    private String city;
+    
     @Column(name="country")
     private String country;
     
@@ -47,7 +50,26 @@ public class Customer {
     private Boolean state; // active ou inactif
     //private List<Order> orders;
 
-    
+    public Customer(Long id, String lastname, String firstname, String company,
+            String mail, String phone, String address, String zipCode,
+            String city, String country, Boolean state) {
+        this.id = id;
+        this.lastname = lastname;
+        this.firstname = firstname;
+        this.company = company;
+        this.mail = mail;
+        this.phone = phone;
+        this.address = address;
+        this.zipCode = zipCode;
+        this.city = city;
+        this.country = country;
+        this.state = state;
+    }
+
+    public Customer() {
+    }
+
+       
     
     public Long getId() {
         return id;
@@ -113,6 +135,15 @@ public class Customer {
         this.zipCode = zipCode;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+        
     public String getCountry() {
         return country;
     }
@@ -128,47 +159,5 @@ public class Customer {
     public void setState(Boolean state) {
         this.state = state;
     }
-    
-    public void copy(Customer customerData){
-        
-        if(customerData.getLastname() != null){  // est ce que test chaine vide "" ??
-            this .lastname = customerData.getLastname();
-        }
-        
-        if(customerData.getFirstname() != null){  
-            this .firstname = customerData.getFirstname();
-        }
-        
-        if(customerData.getCompany() != null){  
-            this .company = customerData.getCompany();
-        }
-        
-        if(customerData.getMail() != null){  
-            this .mail = customerData.getMail();
-        }
-        
-        if(customerData.getPhone() != null){  
-            this .phone = customerData.getPhone();
-        }
-        
-        if(customerData.getAddress() != null){  
-            this .address = customerData.getAddress();
-        }
-        
-        if(customerData.getZipCode() != null){  
-            this .zipCode = customerData.getZipCode();
-        }
-        
-        if(customerData.getCountry() != null){  
-            this .country = customerData.getCountry();
-        }
-        
-        if(customerData.getState() != null){  
-            this .state = customerData.getState();
-        }  
-        
-    }
-    
-    
     
 }

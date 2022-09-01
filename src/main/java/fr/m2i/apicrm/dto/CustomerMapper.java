@@ -10,7 +10,7 @@ public class CustomerMapper {
     public static CustomerDTO buildCustomerDTO(Customer customer){
         
         if(customer == null){
-            return new CustomerDTO();
+            return new CustomerDTO(); // pour eviter de retourner null au client
         }
         
         // transformer de type booelan a String pour l'attribut state
@@ -24,6 +24,7 @@ public class CustomerMapper {
                 customer.getPhone(),
                 customer.getAddress(),
                 customer.getZipCode(),
+                customer.getCity(),
                 customer.getCountry(),
                 state);
         // on peut faire autrement: constructeur par defaut, et ensuite setter tous les attributs  
@@ -34,21 +35,39 @@ public class CustomerMapper {
             return null; // pour eviter de creer des customer vide
         }
         
-        Boolean state = (dto.getState()!=null) && ("ACTIF".equals(dto.getState())?true:false);
+        Boolean state = "ACTIF".equals(dto.getState());
+
+        return new Customer(
+                dto.getId(),
+                dto.getLastname(),
+                dto.getFirstname(),
+                dto.getCompany(),
+                dto.getMail(),
+                dto.getPhone(),
+                dto.getAddress(),
+                dto.getZipCode(),
+                dto.getCity(),
+                dto.getCountry(),
+                state
+        );
         
-        Customer customer = new Customer();
-        customer.setId(dto.getId());
-        customer.setLastname(dto.getLastname());
-        customer.setFirstname(dto.getFirstname());
-        customer.setCompany(dto.getCompany());
-        customer.setMail(dto.getMail());
-        customer.setPhone(dto.getPhone());
-        customer.setAddress(dto.getAddress());
-        customer.setZipCode(dto.getZipCode());
-        customer.setCountry(dto.getCountry());
-        customer.setState(state);
+//        Boolean state = (dto.getState()!=null) && ("ACTIF".equals(dto.getState())?true:false);
+//        
+//        Customer customer = new Customer();
+//        customer.setId(dto.getId());
+//        customer.setLastname(dto.getLastname());
+//        customer.setFirstname(dto.getFirstname());
+//        customer.setCompany(dto.getCompany());
+//        customer.setMail(dto.getMail());
+//        customer.setPhone(dto.getPhone());
+//        customer.setAddress(dto.getAddress());
+//        customer.setZipCode(dto.getZipCode());
+//        customer.setCity(dto.getCity());
+//        customer.setCountry(dto.getCountry());
+//        customer.setState(state);
+//        return customer;
                 
-        return customer;
+        
     }
     
     public static List<CustomerDTO> buidListCustomerDTO(List<Customer> customers){
@@ -78,7 +97,13 @@ public class CustomerMapper {
     
     // copy content in customer to update
     public static Customer copy(Customer customer, Customer content){
-         if(content.getLastname() != null){  // est ce que test chaine vide "" ??
+        
+        if (customer == null || content == null) {
+            return null;
+        }
+        
+        //if(content.getLastname() != null && !content.getLastname().isEmpty())
+        if(content.getLastname() != null && !content.getLastname().isEmpty()){  // est ce qu'o test chaine vide "" ??
             customer.setLastname(content.getLastname());
         }
         
@@ -104,6 +129,10 @@ public class CustomerMapper {
         
         if(content.getZipCode() != null){  
             customer.setZipCode(content.getZipCode());
+        }
+        
+        if(content.getCity() != null){  
+            customer.setCity(content.getCity());
         }
         
         if(content.getCountry() != null){  

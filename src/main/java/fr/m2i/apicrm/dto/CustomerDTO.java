@@ -19,6 +19,8 @@ public class CustomerDTO {
     private String address;
 
     private String zipCode;
+    
+    private String city;
 
     private String country;
       
@@ -30,7 +32,7 @@ public class CustomerDTO {
     }
 
     public CustomerDTO(Long id, String lastname, String firstname, String company
-            , String mail, String phone, String address, String zipCode,
+            , String mail, String phone, String address, String zipCode,String city,
             String country, String state) {
         this.id = id;
         this.lastname = lastname;
@@ -110,6 +112,15 @@ public class CustomerDTO {
         this.zipCode = zipCode;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+    
+    
     public String getCountry() {
         return country;
     }
