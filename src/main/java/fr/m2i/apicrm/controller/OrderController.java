@@ -106,7 +106,7 @@ public class OrderController {
         try {
             Long idOrder = Long.parseLong(id);
             orderService.delete(idOrder);
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
         } catch(NumberFormatException ne){
             return ErrorResponseEntity.build("The parameter 'id' is not valid", 400, "/v1/orders/" + id, HttpStatus.BAD_REQUEST);

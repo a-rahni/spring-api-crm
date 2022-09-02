@@ -13,47 +13,48 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+
 @Entity
 @Table(name="orders")
 public class Order {
-    
+
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name ="id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @ManyToOne(fetch=FetchType.LAZY /*, optional=false*/)
-    @JoinColumn(name ="customerId" , nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
-    
-    @Column(name ="type")
+
+    @Column(name="type")
     private String type;
     
-    @Column(name ="label")
+    @Column(name="label")
     private String label;
     
-    @Column(name ="numberOfDays")
+    @Column(name="nb_days")
     private Integer numberOfDays;
     
-    @Column(name ="unitPrice")
-    private Double unitPrice;
+    @Column(name="unit_price")
+    private Float unitPrice;
     
-    @Column(name ="totalExcludeTaxe")
-    private Double totalExcludeTaxe;
-    
-    @Column(name ="totalWithTaxe")
-    private Double totalWithTaxe;
-    
+    @Column(name="total_exclude_taxe")
+    private Float totalExcludeTaxe;
+
+    @Column(name="total_with_taxe")
+    private Float totalWithTaxe;
+
     @Enumerated(EnumType.STRING)
-    @Column(name ="status", columnDefinition = "ENUM('CANCELED','OPTION','CONFIRMED')")
-    private Status status;
+    @Column(name="state", columnDefinition = "ENUM('CANCELED', 'OPTION', 'CONFIRMED') NOT NULL")
+    private OrderState state;
 
     public Order() {
+
     }
 
     public Order(Long id, Customer customer, String type, String label,
-            Integer numberOfDays, Double unitPrice, Double totalExcludeTaxe,
-            Double totalWithTaxe, Status status) {
+            Integer numberOfDays, Float unitPrice, Float totalExcludeTaxe,
+            Float totalWithTaxe, OrderState state) {
         this.id = id;
         this.customer = customer;
         this.type = type;
@@ -62,7 +63,7 @@ public class Order {
         this.unitPrice = unitPrice;
         this.totalExcludeTaxe = totalExcludeTaxe;
         this.totalWithTaxe = totalWithTaxe;
-        this.status = status;
+        this.state = state;
     }
 
     public Long getId() {
@@ -105,39 +106,82 @@ public class Order {
         this.numberOfDays = numberOfDays;
     }
 
-    public Double getUnitPrice() {
+    public Float getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(Double unitPrice) {
+    public void setUnitPrice(Float unitPrice) {
         this.unitPrice = unitPrice;
     }
 
-    public Double getTotalExcludeTaxe() {
+    public Float getTotalExcludeTaxe() {
         return totalExcludeTaxe;
     }
 
-    public void setTotalExcludeTaxe(Double totalExcludeTaxe) {
+    public void setTotalExcludeTaxe(Float totalExcludeTaxe) {
         this.totalExcludeTaxe = totalExcludeTaxe;
     }
 
-    public Double getTotalWithTaxe() {
+    public Float getTotalWithTaxe() {
         return totalWithTaxe;
     }
 
-    public void setTotalWithTaxe(Double totalWithTaxe) {
+    public void setTotalWithTaxe(Float totalWithTaxe) {
         this.totalWithTaxe = totalWithTaxe;
     }
 
-    public Status getStatus() {
-        return status;
+    public OrderState getState() {
+        return state;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setState(OrderState state) {
+        this.state = state;
     }
+
+    @Override
+    public String toString() {
+        return "Order{" + "id=" + id + ", customer=" + customer + ", type=" + type + ", label=" + label + ", numberOfDays=" + numberOfDays + ", unitPrice=" + unitPrice + ", totalExcludeTaxe=" + totalExcludeTaxe + ", totalWithTaxe=" + totalWithTaxe + ", state=" + state + '}';
+    }
+}
+
+
+
+
+/*
+@Entity
+@Table(name="orders")
+public class Order {
     
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name ="id")
+    private Long id;
     
+    @ManyToOne(fetch=FetchType.LAZY , optional=false)
+    @JoinColumn(name ="customerId" , nullable = false)
+    private Customer customer;
     
+    @Column(name ="type")
+    private String type;
+    
+    @Column(name ="label")
+    private String label;
+    
+    @Column(name ="numberOfDays")
+    private Integer numberOfDays;
+    
+    @Column(name ="unitPrice")
+    private Double unitPrice;
+    
+    @Column(name ="totalExcludeTaxe")
+    private Double totalExcludeTaxe;
+    
+    @Column(name ="totalWithTaxe")
+    private Double totalWithTaxe;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name ="status", columnDefinition = "ENUM('CANCELED','OPTION','CONFIRMED')")
+    private OrderState status;
     
 }
+*/

@@ -87,25 +87,27 @@ public class CustomerController {
         }
     }
     
-    @PutMapping(value = "/{id}",
+    @PutMapping(
+            value = "/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Object> updateCustomer(@PathVariable("id") String id,@RequestBody CustomerDTO dto) {
+    public ResponseEntity<Object> updateCustomer(@PathVariable("id") String id,
+            @RequestBody CustomerDTO dto) {
         try {
-            Long idCustomer = Long.parseLong(id);
-            Customer customerContent = CustomerMapper.buildCustomer(dto);
-            Customer updatedCustomer = customerService.update(idCustomer, customerContent);
-            CustomerDTO updateddDTO = CustomerMapper.buildCustomerDTO(updatedCustomer);
+            Long customerId = Long.parseLong(id);
+            Customer content = CustomerMapper.buildCustomer(dto);
+            Customer updated = customerService.update(customerId, content);
+            CustomerDTO updateDto = CustomerMapper.buildCustomerDTO(updated);
 
-            return ResponseEntity.status(HttpStatus.OK).body(updateddDTO);
+            return ResponseEntity.status(HttpStatus.OK).body(updateDto);
 
-        } catch(NumberFormatException ne){
+        } catch (NumberFormatException ne) {
             return ErrorResponseEntity.build("The parameter 'id' is not valid", 400, "/v1/customers/" + id, HttpStatus.BAD_REQUEST);
         } catch (NotFoundException nfe) {
             return ErrorResponseEntity.build("Customer was not found", 404, "/v1/customers/" + id, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            return ErrorResponseEntity.build("An error occured", 500, "/v1/customers/"+ id, HttpStatus.INTERNAL_SERVER_ERROR);
+            return ErrorResponseEntity.build("An error occured", 500, "/v1/customers/" + id, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     
@@ -117,7 +119,7 @@ public class CustomerController {
         try {
             Long idCustomer = Long.parseLong(id);
             customerService.delete(idCustomer);
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
         } catch(NumberFormatException ne){
             return ErrorResponseEntity.build("The parameter 'id' is not valid", 400, "/v1/customers/" + id, HttpStatus.BAD_REQUEST);

@@ -3,72 +3,76 @@ package fr.m2i.apicrm.dto;
 
 import fr.m2i.apicrm.model.Customer;
 import fr.m2i.apicrm.model.Order;
-import fr.m2i.apicrm.model.Status;
+import fr.m2i.apicrm.model.OrderState;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class OrderMapper {
     
-    public static OrderDTO buildOrderDTO(Order order){
-        
-        if(order == null){
-            return new OrderDTO(); // pour eviter de retourner null au client
+    public static OrderDTO buildOrderDTO(Order order) {
+
+        if (order == null) {
+            return new OrderDTO();
         }
-        
-        CustomerDTO customerDTO =null;
-        if(order.getCustomer() != null){
+
+        CustomerDTO customerDTO = null;
+
+        if (order.getCustomer() != null) {
             customerDTO = CustomerMapper.buildCustomerDTO(order.getCustomer());
         }
-        // convert from enum type to string
-        //String status = String.valueOf(order.getStatus());
-        String status = (order.getStatus()).name();
-        
+
+        String state = null;
+        // converti enum to string
+        if (order.getState() != null) {
+            state = order.getState().name();
+        }
+
         return new OrderDTO(
                 order.getId(),
-                customerDTO, //CustomerMapper.buildCustomerDTO(order.getCustomer()),
+                customerDTO,
                 order.getType(),
                 order.getLabel(),
                 order.getNumberOfDays(),
                 order.getUnitPrice(),
                 order.getTotalExcludeTaxe(),
                 order.getTotalWithTaxe(),
-                status
+                state
         );
-        
     }
     
-     public static Order buildOrder(OrderDTO dto){
-         
-         // on peut eviter de recopier l'ID, en cas de create avec un id existant
-         // il fait la mise ajour dans la base (ou dans le create vérifier que l'objet n'extste pas déja
-         if(dto == null){
-             return null;  // pour eviter de creer des orders vides en cas où
-         }
-         
-         Customer customer = null;
-         if(dto.getCustomerDto() != null && dto.getCustomerDto().getId() != null){
-             customer= new Customer();
-             customer.setId(dto.getCustomerDto().getId());
-             //CustomerMapper.buildCustomer(dto.getCustomerDto());
-         }
-         
-         // converti status from string type to enum type
-         Status status = Status.valueOf(dto.getStatus());
-         
-         return new Order(
+    public static Order buildOrder(OrderDTO dto) {
+        
+        if (dto == null) {
+            return null;
+        }
+        
+        Customer customer = null;
+
+        if (dto.getCustomer() != null && dto.getCustomer().getId() != null) {
+            customer = new Customer();
+            customer.setId(dto.getCustomer().getId());
+        }
+        
+        OrderState state = null;
+
+        // converti string type to enum
+        if (dto.getState() != null) {
+            state = OrderState.valueOf(dto.getState());
+        }
+
+        return new Order(
                 dto.getId(),
-                customer, //CustomerMapper.buildCustomer(dto.getCustomerDto()),
+                customer,
                 dto.getType(),
                 dto.getLabel(),
                 dto.getNumberOfDays(),
                 dto.getUnitPrice(),
                 dto.getTotalExcludeTaxe(),
                 dto.getTotalWithTaxe(),
-                status
+                state
         );
-     
-     }
+    }
      
      public static List<OrderDTO> buidListOrderDTO(List<Order> orders){
         
@@ -93,48 +97,46 @@ public class OrderMapper {
     }
      
      
-     // copy content in customer to update
-    public static Order copy(Order order, Order content){
-        
+    public static Order copy(Order order, Order content) {
+
         if (order == null || content == null) {
             return null;
         }
-        
-        // est ce qu'o test string vide "" ??
-        //if(content.getLastname() != null && !content.getLastname().isEmpty()) 
-        
-        if(content.getCustomer()!= null ){  
-            order.setCustomer(content.getCustomer());
-        }
-        
-        if(content.getType()!= null ){  
+
+        if (content.getType() != null) {
             order.setType(content.getType());
         }
-        
-        if(content.getLabel()!= null ){  
+
+        if (content.getLabel() != null) {
             order.setLabel(content.getLabel());
         }
-        
-        if(content.getNumberOfDays()!= null ){  
+
+        if (content.getCustomer() != null && content.getCustomer().getId() != null) {
+            Customer customer = new Customer();
+            customer.setId(content.getCustomer().getId());
+            order.setCustomer(customer);
+        }
+
+        if (content.getNumberOfDays() != null) {
             order.setNumberOfDays(content.getNumberOfDays());
         }
-        
-        if(content.getUnitPrice()!= null ){  
+
+        if (content.getUnitPrice() != null) {
             order.setUnitPrice(content.getUnitPrice());
         }
-        
-        if(content.getTotalExcludeTaxe()!= null ){  
+
+        if (content.getTotalExcludeTaxe() != null) {
             order.setTotalExcludeTaxe(content.getTotalExcludeTaxe());
         }
-        
-        if(content.getTotalWithTaxe()!= null ){  
+
+        if (content.getTotalWithTaxe() != null) {
             order.setTotalWithTaxe(content.getTotalWithTaxe());
         }
-        
-        if(content.getStatus()!= null ){  
-            order.setStatus(content.getStatus());
+
+        if (content.getState() != null) {
+            order.setState(content.getState());
         }
-        
+
         return order;
     }
     
