@@ -42,7 +42,7 @@ public class CustomerService implements ICustomerService {
     @Override
     public Customer update(Long id, Customer content) {
         Customer customerToUpdate = findById(id);
-        CustomerMapper.copy(customerToUpdate, content);
+        CustomerMapper.copy(customerToUpdate, content); // to do : handle null pointer content with exception
         return repo.save(customerToUpdate);
     }
 

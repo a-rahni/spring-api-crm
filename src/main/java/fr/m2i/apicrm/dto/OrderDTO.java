@@ -1,61 +1,30 @@
 
-package fr.m2i.apicrm.model;
+package fr.m2i.apicrm.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import fr.m2i.apicrm.model.Customer;
+import fr.m2i.apicrm.model.Status;
 
-@Entity
-@Table(name="orders")
-public class Order {
+
+public class OrderDTO {
     
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name ="id")
     private Long id;
-    
-    @ManyToOne(fetch=FetchType.LAZY /*, optional=false*/)
-    @JoinColumn(name ="customerId" , nullable = false)
-    private Customer customer;
-    
-    @Column(name ="type")
+    private CustomerDTO customerDto;
     private String type;
-    
-    @Column(name ="label")
     private String label;
-    
-    @Column(name ="numberOfDays")
     private Integer numberOfDays;
-    
-    @Column(name ="unitPrice")
     private Double unitPrice;
-    
-    @Column(name ="totalExcludeTaxe")
     private Double totalExcludeTaxe;
-    
-    @Column(name ="totalWithTaxe")
     private Double totalWithTaxe;
-    
-    @Enumerated(EnumType.STRING)
-    @Column(name ="status", columnDefinition = "ENUM('CANCELED','OPTION','CONFIRMED')")
-    private Status status;
+    private String status;
 
-    public Order() {
+    public OrderDTO() {
     }
 
-    public Order(Long id, Customer customer, String type, String label,
+    public OrderDTO(Long id, CustomerDTO customerDto, String type, String label,
             Integer numberOfDays, Double unitPrice, Double totalExcludeTaxe,
-            Double totalWithTaxe, Status status) {
+            Double totalWithTaxe, String status) {
         this.id = id;
-        this.customer = customer;
+        this.customerDto = customerDto;
         this.type = type;
         this.label = label;
         this.numberOfDays = numberOfDays;
@@ -73,12 +42,12 @@ public class Order {
         this.id = id;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public CustomerDTO getCustomerDto() {
+        return customerDto;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setCustomerDto(CustomerDTO customer) {
+        this.customerDto = customer;
     }
 
     public String getType() {
@@ -129,15 +98,15 @@ public class Order {
         this.totalWithTaxe = totalWithTaxe;
     }
 
-    public Status getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(String status) {
         this.status = status;
     }
-    
-    
-    
+
     
 }
+    
+
