@@ -8,6 +8,7 @@ import fr.m2i.apicrm.exception.NotFoundException;
 import fr.m2i.apicrm.model.Customer;
 import fr.m2i.apicrm.response.ErrorResponseEntity;
 import fr.m2i.apicrm.service.ICustomerService;
+import io.swagger.annotations.ApiOperation;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,7 @@ public class CustomerController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Returns the list of all customers", nickname = "Get all customers", response = CustomerDTO.class)
     public ResponseEntity<Object> getAllCustomer() {
 
         List<Customer> customers = customerService.findAll();
@@ -49,6 +51,7 @@ public class CustomerController {
     }
     
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Return a customer", nickname = "Get a customer by id", response = CustomerDTO.class)
     public ResponseEntity<Object> getCustomerById(@PathVariable("id") String id) {
         try {
             //utiliser type String pour ID, pour maitriser le retour de erreur (ne laisser pas spring de gerer)
@@ -74,6 +77,7 @@ public class CustomerController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
+    @ApiOperation(value = "Create a customer", nickname = "Create a customer", response = CustomerDTO.class)
     public ResponseEntity<Object> createCustomer(@RequestBody CustomerDTO dto) {
         try {
             Customer toCreate = CustomerMapper.buildCustomer(dto);
@@ -92,6 +96,7 @@ public class CustomerController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
+    @ApiOperation(value = "update a customer", nickname = "Update a customer by id", response = CustomerDTO.class)
     public ResponseEntity<Object> updateCustomer(@PathVariable("id") String id,
             @RequestBody CustomerDTO dto) {
         try {
@@ -115,6 +120,7 @@ public class CustomerController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
+    @ApiOperation(value = "delete a customer", nickname = "Delete a customer by id", code = 204)
     public ResponseEntity<Object> deleteCustomer(@PathVariable("id") String id) {
         try {
             Long idCustomer = Long.parseLong(id);

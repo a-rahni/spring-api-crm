@@ -7,6 +7,7 @@ import fr.m2i.apicrm.exception.NotFoundException;
 import fr.m2i.apicrm.model.Order;
 import fr.m2i.apicrm.response.ErrorResponseEntity;
 import fr.m2i.apicrm.service.IOrderService;
+import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,7 @@ public class OrderController {
     }
     
     @GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Returns the list of all orders", nickname = "Get all orders", response = OrderDTO.class)
     ResponseEntity<Object> getAllOrder(){
         List<Order> orders = orderService.findAll();
         List<OrderDTO> dtos = OrderMapper.buidListOrderDTO(orders);
@@ -45,6 +47,7 @@ public class OrderController {
 //            produces=MediaType.APPLICATION_JSON_VALUE,
 //            consumes=MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Return a order", nickname = "Get a order by id", response = OrderDTO.class)
     ResponseEntity<Object> getOrderById(@PathVariable("id") String id){
         try{
             Long idOrder = Long.parseLong(id);
@@ -63,6 +66,7 @@ public class OrderController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
+    @ApiOperation(value = "Create an order", nickname = "Create an order", response = OrderDTO.class)
     public ResponseEntity<Object> createOrder(@RequestBody OrderDTO dto) {
         try {
             Order toCreate = OrderMapper.buildOrder(dto);
@@ -80,6 +84,7 @@ public class OrderController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
+    @ApiOperation(value = "update a order", nickname = "Update an order by id", response = OrderDTO.class)
     public ResponseEntity<Object> updateOrder(@PathVariable("id") String id,@RequestBody OrderDTO dto) {
         try {
             Long idOrder = Long.parseLong(id);
@@ -98,10 +103,8 @@ public class OrderController {
         }
     }
     
-    @DeleteMapping(value = "/{id}",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @DeleteMapping(value = "/{id}")
+    @ApiOperation(value = "delete an order", nickname = "Delete an order by id", code = 204)
     public ResponseEntity<Object> deleteOrder(@PathVariable("id") String id) {
         try {
             Long idOrder = Long.parseLong(id);
